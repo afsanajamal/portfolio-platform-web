@@ -31,16 +31,16 @@ export default function UsersPage() {
 
   const isAdmin = useMemo(() => role === "admin", [role]);
 
-  // Get role from localStorage (client-side)
+  // Get role from localStorage (client-side) and redirect if not admin
   useEffect(() => {
-    setRole(getRole());
-  }, []);
+    const userRole = getRole();
+    setRole(userRole);
 
-  // Redirect if not admin
-  useEffect(() => {
-    if (role === null) return;
-    if (role !== "admin") router.replace(`/${locale}/projects`);
-  }, [role, locale, router]);
+    // Redirect immediately if not admin (includes null/not authenticated)
+    if (userRole !== "admin") {
+      router.replace(`/${locale}/projects`);
+    }
+  }, [locale, router]);
 
   // Load users (admin only)
   useEffect(() => {

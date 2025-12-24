@@ -1,5 +1,8 @@
 "use client";
 
+import { useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
+import { isAuthed } from "@/lib/auth";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
@@ -25,6 +28,10 @@ type CreateForm = {
 };
 
 export default function ProjectsPage() {
+  const locale = useLocale();
+  const router = useRouter();
+
+  const [authed, setAuthed] = useState(false);
   const t = useTranslations("projects");
 
   const [role, setRole] = useState<UserRole | null>(null);
@@ -58,8 +65,15 @@ export default function ProjectsPage() {
   };
 
   useEffect(() => {
+    const authenticated = isAuthed();
+    setAuthed(authenticated);
     setRole(getRole());
-  }, []);
+
+    // Redirect immediately if not authenticated
+    if (!authenticated) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [locale, router]);
 
   async function loadAll() {
     setLoading(true);
@@ -76,8 +90,9 @@ export default function ProjectsPage() {
   }
 
   useEffect(() => {
+    if (!authed) return;
     loadAll();
-  }, []);
+  }, [authed]);
 
   const tagsById = useMemo(() => {
   const m = new Map<number, string>();
@@ -167,6 +182,10 @@ export default function ProjectsPage() {
     if (current.includes(tagId)) set(current.filter((id) => id !== tagId));
     else set([...current, tagId]);
   }
+
+  // ⛔ stop rendering until auth state is known
+  if (role === null) return null;
+  if (!authed) return null;
 
   return (
     <div className="space-y-4">

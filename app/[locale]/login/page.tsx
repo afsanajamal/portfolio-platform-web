@@ -47,17 +47,17 @@ export default function LoginPage() {
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-1">
               <label className="text-sm text-slate-700">{t("email")}</label>
-              <Input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input name="email" data-testid="login-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
 
             <div className="space-y-1">
               <label className="text-sm text-slate-700">{t("password")}</label>
-              <Input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <Input name="password" data-testid="login-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
 
             {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
-            <Button type="submit" disabled={loading} className="w-full">
+            <Button type="submit" data-testid="login-submit" disabled={loading} className="w-full">
               {loading ? "..." : t("submit")}
             </Button>
 

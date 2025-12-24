@@ -27,15 +27,15 @@ export default function TagsPage() {
   const canCreate = useMemo(() => role === "admin" || role === "editor", [role]);
 
   useEffect(() => {
-    setAuthed(isAuthed());
+    const authenticated = isAuthed();
+    setAuthed(authenticated);
     setRole(getRole());
-  }, []);
 
-  // if not logged in -> login
-  useEffect(() => {
-    if (role === null) return;
-    if (!authed) router.replace(`/${locale}/login`);
-  }, [role, authed, locale, router]);
+    // Redirect immediately if not authenticated
+    if (!authenticated) {
+      router.replace(`/${locale}/login`);
+    }
+  }, [locale, router]);
 
   // load tags
   useEffect(() => {

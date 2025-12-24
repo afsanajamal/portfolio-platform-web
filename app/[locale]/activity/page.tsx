@@ -69,14 +69,14 @@ export default function ActivityPage() {
   const canSeeActivity = useMemo(() => role === "admin", [role])
 
   useEffect(() => {
-    setRole(getRole());
-  }, []);
+    const userRole = getRole();
+    setRole(userRole);
 
-  // Redirect if not allowed
-  useEffect(() => {
-    if (role === null) return;
-    if (!canSeeActivity) router.replace(`/${locale}/projects`);
-  }, [role, canSeeActivity, locale, router]);
+    // Redirect immediately if not admin (includes null/not authenticated)
+    if (userRole !== "admin") {
+      router.replace(`/${locale}/projects`);
+    }
+  }, [locale, router]);
 
   // Load users once to show actor email
   useEffect(() => {
