@@ -9,11 +9,6 @@ import { Button } from "@/components/ui/button";
 import { login } from "@/lib/api";
 import { setAuth, type UserRole } from "@/lib/auth";
 
-function inferRoleFromToken(_accessToken: string): UserRole {
-  // UI role is optional; backend enforces RBAC.
-  // We'll replace this with /users/me later.
-  return "viewer";
-}
 
 export default function LoginPage() {
   const t = useTranslations("login");
@@ -31,8 +26,8 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const tokens = await login({ username: email.trim(), password });
-      setAuth(tokens.access_token, inferRoleFromToken(tokens.access_token));
+      const tokens = await login({ username: email, password });
+      setAuth(tokens.access_token, tokens.role, String(tokens.org_id),tokens.user_id);
       router.push(`/${locale}/projects`);
     } catch {
       setError(t("error"));
