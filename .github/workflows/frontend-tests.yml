@@ -23,9 +23,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug versions
+        run: |
+          node -v
+          npm -v
+          npx vitest --version
+          npx playwright --version
+
       - name: Run unit tests (Vitest)
-        run: npm run test:run
-        # ↑ allows flexibility if script name differs
+        run: npm run test:run -- --reporter=verbose
 
       - name: Build app
         run: npm run build

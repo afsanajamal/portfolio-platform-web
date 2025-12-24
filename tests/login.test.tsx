@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import React from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { vi } from "vitest";
-import LoginPage from "@/app/[locale]/login/page";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -14,6 +13,9 @@ vi.mock("next/navigation", () => ({
     forward: vi.fn()
   })
 }));
+
+// ✅ Import after mocks
+import LoginPage from "@/app/[locale]/login/page";
 
 const messages = {
   login: {
