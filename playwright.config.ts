@@ -13,7 +13,7 @@ export default defineConfig({
 
   // 👇 This is the important part: start the Next server for tests
   webServer: {
-    command: "npm run build && npm run start -p 3000",
+    command: "npm run build && npm run start",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

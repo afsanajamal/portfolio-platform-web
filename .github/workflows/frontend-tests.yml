@@ -34,9 +34,6 @@ jobs:
       - name: Run unit tests (Vitest)
         run: npm run test:run -- --reporter=verbose
 
-      - name: Build app
-        run: npm run build
-
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
