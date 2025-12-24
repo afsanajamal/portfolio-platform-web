@@ -5,6 +5,7 @@ const ACCESS_TOKEN_KEY = "pp_access_token";
 const ROLE_KEY = "pp_role";
 const ORG_KEY = "pp_org_id";
 const USER_ID_KEY = "pp_user_id";
+const REFRESH_TOKEN_KEY = "pp_refresh_token";
 
 function emitAuthChanged() {
   if (typeof window === "undefined") return;
@@ -13,14 +14,16 @@ function emitAuthChanged() {
 
 export function setAuth(
   accessToken: string,
+  refreshToken: string,
   role: UserRole,
   orgId?: string | null,
   userId?: number | null
 ) {
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   localStorage.setItem(ROLE_KEY, role);
 
-  if (orgId) localStorage.setItem(ORG_KEY, orgId);
+  if (orgId) localStorage.setItem(ORG_KEY, String(orgId));
   else localStorage.removeItem(ORG_KEY);
 
   if (userId != null) localStorage.setItem(USER_ID_KEY, String(userId));
@@ -29,6 +32,9 @@ export function setAuth(
   emitAuthChanged();
 }
 
+export function getRefreshToken(): string | null {
+  return typeof window === "undefined" ? null : localStorage.getItem(REFRESH_TOKEN_KEY);
+}
 export function getUserId(): number | null {
   if (typeof window === "undefined") return null;
   const v = localStorage.getItem(USER_ID_KEY);
@@ -40,6 +46,7 @@ export function clearAuth() {
   localStorage.removeItem(ROLE_KEY);
   localStorage.removeItem(ORG_KEY);
   localStorage.removeItem(USER_ID_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
 
   emitAuthChanged();
 }
@@ -60,5 +67,5 @@ export function isAuthed(): boolean {
 }
 
 export function getOrgId(): string | null {
-  return typeof window === "undefined" ? null : localStorage.getItem("ORG_KEY");
+  return typeof window === "undefined" ? null : localStorage.getItem(ORG_KEY);
 }

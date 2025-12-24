@@ -27,7 +27,7 @@ export default function LoginPage() {
 
     try {
       const tokens = await login({ username: email, password });
-      setAuth(tokens.access_token, tokens.role, String(tokens.org_id),tokens.user_id);
+      setAuth(tokens.access_token, tokens.refresh_token, tokens.role, String(tokens.org_id),tokens.user_id);
       router.push(`/${locale}/projects`);
     } catch {
       setError(t("error"));
