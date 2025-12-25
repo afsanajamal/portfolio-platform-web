@@ -22,6 +22,14 @@ This project is designed as a **portfolio-quality frontend system**, suitable fo
 
 ---
 
+## Security Note
+
+**Production Build:** ✅ Zero vulnerabilities (`npm audit --production`)
+
+**Development Dependencies:** Some dev tools (esbuild, glob) have known CVEs that only affect local development environments and do not impact production deployments. These are standard in Next.js 14 projects and are not exploitable in production builds.
+
+---
+
 ## Core Features
 
 ### Authentication & Session Management
