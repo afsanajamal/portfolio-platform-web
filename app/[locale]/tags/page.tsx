@@ -94,13 +94,18 @@ export default function TagsPage() {
 
         <CardContent>
           {canCreate ? (
-            <form onSubmit={onCreate} className="flex items-end gap-3">
+            <form onSubmit={onCreate} className="flex items-end gap-3" data-testid="create-tag-form">
               <div className="space-y-1">
                 <label className="text-sm text-slate-700">Name</label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} required />
+                <Input
+                  data-testid="create-tag-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
               </div>
 
-              <Button type="submit" disabled={creating}>
+              <Button data-testid="create-tag-submit" type="submit" disabled={creating}>
                 {creating ? "Creating..." : "Create tag"}
               </Button>
 
@@ -123,10 +128,11 @@ export default function TagsPage() {
           ) : tags.length === 0 ? (
             <p className="text-sm text-slate-600">No tags found.</p>
           ) : (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" data-testid="tags-list">
               {tags.map((t) => (
                 <span
                   key={t.id}
+                  data-testid={`tag-${t.id}`}
                   className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-700"
                 >
                   {t.name}
