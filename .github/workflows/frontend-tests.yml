@@ -72,16 +72,25 @@ jobs:
           ACCESS_TOKEN_EXPIRE_MINUTES: "30"
           REFRESH_TOKEN_EXPIRE_DAYS: "7"
         run: |
-          uvicorn app.main:app --host 127.0.0.1 --port 8000 &
+          echo "Starting backend..."
+          uvicorn app.main:app --host 127.0.0.1 --port 8000 > backend.log 2>&1 &
           echo $! > backend.pid
-          sleep 3
-          curl -f http://127.0.0.1:8000/docs || echo "Backend started, docs may not be available"
+          sleep 5
+          echo "Checking if backend is running..."
+          curl -v http://127.0.0.1:8000/docs || (echo "Backend failed to start. Logs:" && cat backend.log && exit 1)
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Run E2E tests
         run: npm run e2e
+
+      - name: Show backend logs on failure
+        if: failure()
+        working-directory: backend
+        run: |
+          echo "=== Backend logs ==="
+          cat backend.log || echo "No backend log file found"
 
       - name: Stop backend API
         if: always()
