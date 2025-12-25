@@ -33,13 +33,24 @@ export default function UsersPage() {
 
   // Get role from localStorage (client-side) and redirect if not admin
   useEffect(() => {
-    const userRole = getRole();
-    setRole(userRole);
+    const checkAuth = () => {
+      const userRole = getRole();
+      setRole(userRole);
 
-    // Redirect immediately if not admin (includes null/not authenticated)
-    if (userRole !== "admin") {
-      router.replace(`/${locale}/projects`);
-    }
+      // Redirect immediately if not admin (includes null/not authenticated)
+      if (userRole !== "admin") {
+        router.replace(`/${locale}/projects`);
+      }
+    };
+
+    checkAuth();
+
+    // Listen for auth changes (e.g., when session expires and auth is cleared)
+    window.addEventListener("pp-auth-changed", checkAuth);
+
+    return () => {
+      window.removeEventListener("pp-auth-changed", checkAuth);
+    };
   }, [locale, router]);
 
   // Load users (admin only)

@@ -27,14 +27,25 @@ export default function TagsPage() {
   const canCreate = useMemo(() => role === "admin" || role === "editor", [role]);
 
   useEffect(() => {
-    const authenticated = isAuthed();
-    setAuthed(authenticated);
-    setRole(getRole());
+    const checkAuth = () => {
+      const authenticated = isAuthed();
+      setAuthed(authenticated);
+      setRole(getRole());
 
-    // Redirect immediately if not authenticated
-    if (!authenticated) {
-      router.replace(`/${locale}/login`);
-    }
+      // Redirect immediately if not authenticated
+      if (!authenticated) {
+        router.replace(`/${locale}/login`);
+      }
+    };
+
+    checkAuth();
+
+    // Listen for auth changes (e.g., when session expires and auth is cleared)
+    window.addEventListener("pp-auth-changed", checkAuth);
+
+    return () => {
+      window.removeEventListener("pp-auth-changed", checkAuth);
+    };
   }, [locale, router]);
 
   // load tags
