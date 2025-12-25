@@ -203,12 +203,18 @@ export default function ProjectsPage() {
             <form onSubmit={onCreate} className="grid gap-3 md:grid-cols-2">
               <div className="space-y-1">
                 <label className="text-sm text-slate-700">Title</label>
-                <Input value={form.title} onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))} required />
+                <Input
+                  data-testid="create-project-title"
+                  value={form.title}
+                  onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+                  required
+                />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm text-slate-700">GitHub URL</label>
                 <Input
+                  data-testid="create-project-url"
                   value={form.github_url}
                   onChange={(e) => setForm((p) => ({ ...p, github_url: e.target.value }))}
                   required
@@ -218,6 +224,7 @@ export default function ProjectsPage() {
               <div className="space-y-1 md:col-span-2">
                 <label className="text-sm text-slate-700">Description</label>
                 <Input
+                  data-testid="create-project-description"
                   value={form.description}
                   onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
                   required
@@ -243,7 +250,7 @@ export default function ProjectsPage() {
               </div>
 
               <div className="md:col-span-2 flex items-center gap-3">
-                <Button type="submit" disabled={creating}>
+                <Button type="submit" disabled={creating} data-testid="create-project-submit">
                   {creating ? "Creating..." : "Create"}
                 </Button>
                 {createErr ? <p className="text-sm text-red-600">{createErr}</p> : null}
@@ -267,13 +274,14 @@ export default function ProjectsPage() {
               const isEditing = editingId === p.id;
 
               return (
-                <li key={p.id} className="rounded-md border border-slate-200 p-3">
+                <li key={p.id} className="rounded-md border border-slate-200 p-3" data-testid={`project-${p.id}`}>
                   {isEditing && editForm ? (
                     <div className="space-y-3">
                       <div className="grid gap-3 md:grid-cols-2">
                         <div className="space-y-1">
                           <label className="text-sm text-slate-700">Title</label>
                           <Input
+                            data-testid="edit-project-title"
                             value={editForm.title}
                             onChange={(e) => setEditForm((prev) => (prev ? { ...prev, title: e.target.value } : prev))}
                           />
@@ -281,6 +289,7 @@ export default function ProjectsPage() {
                         <div className="space-y-1">
                           <label className="text-sm text-slate-700">GitHub URL</label>
                           <Input
+                            data-testid="edit-project-url"
                             value={editForm.github_url}
                             onChange={(e) =>
                               setEditForm((prev) => (prev ? { ...prev, github_url: e.target.value } : prev))
@@ -290,6 +299,7 @@ export default function ProjectsPage() {
                         <div className="space-y-1 md:col-span-2">
                           <label className="text-sm text-slate-700">Description</label>
                           <Input
+                            data-testid="edit-project-description"
                             value={editForm.description}
                             onChange={(e) =>
                               setEditForm((prev) => (prev ? { ...prev, description: e.target.value } : prev))
@@ -321,7 +331,7 @@ export default function ProjectsPage() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <Button disabled={savingEdit} onClick={() => saveEdit(p.id)}>
+                        <Button disabled={savingEdit} onClick={() => saveEdit(p.id)} data-testid="save-project">
                           {savingEdit ? "Saving..." : "Save"}
                         </Button>
                         <Button
@@ -330,6 +340,7 @@ export default function ProjectsPage() {
                             setEditingId(null);
                             setEditForm(null);
                           }}
+                          data-testid="cancel-edit"
                         >
                           Cancel
                         </Button>
@@ -348,13 +359,13 @@ export default function ProjectsPage() {
 
                         {canMutate ? (
                           <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => startEdit(p)}>
+                            <Button variant="outline" onClick={() => startEdit(p)} data-testid={`edit-project-${p.id}`}>
                               Edit
                             </Button>
                              {canDeleteProject(p) && (
-                                <Button variant="outline" onClick={() => onDelete(p.id)}>
+                                <Button variant="outline" onClick={() => onDelete(p.id)} data-testid={`delete-project-${p.id}`}>
                                   Delete
-                                </Button> 
+                                </Button>
                               )}
                           </div>
                         ) : null}
