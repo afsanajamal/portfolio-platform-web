@@ -1,6 +1,12 @@
 import { test, expect } from "@playwright/test";
 
 test("redirects to login when not authenticated, then allows login", async ({ page }) => {
+  // ✅ MUST be first: clear auth before the app loads
+  await page.addInitScript(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
   // 1) Try to open a protected page while logged out
   await page.goto("/en/projects");
 
