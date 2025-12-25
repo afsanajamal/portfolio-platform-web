@@ -61,7 +61,13 @@ export default function TagsPage() {
         const data = await listTags();
         if (!cancelled) setTags(data);
       } catch (e: any) {
-        if (!cancelled) setErr(e?.message ?? "Failed to load tags");
+        if (cancelled) return;
+        // If session expired, auth was cleared - redirect instead of showing error
+        if (!isAuthed()) {
+          router.replace(`/${locale}/login`);
+          return;
+        }
+        setErr(e?.message ?? "Failed to load tags");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -84,6 +90,11 @@ export default function TagsPage() {
       setTags((prev) => [created, ...prev]);
       setName("");
     } catch (e: any) {
+      // If session expired, auth was cleared - redirect instead of showing error
+      if (!isAuthed()) {
+        router.replace(`/${locale}/login`);
+        return;
+      }
       setCreateErr(e?.message ?? "Failed to create tag");
     } finally {
       setCreating(false);

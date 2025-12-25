@@ -94,6 +94,11 @@ export default function ProjectsPage() {
       setItems(projectsData);
       setTags(tagsData);
     } catch (e: any) {
+      // If session expired, auth was cleared - redirect instead of showing error
+      if (!isAuthed()) {
+        router.replace(`/${locale}/login`);
+        return;
+      }
       setError(typeof e?.message === "string" ? e.message : "Failed to load");
     } finally {
       setLoading(false);
@@ -134,6 +139,11 @@ export default function ProjectsPage() {
       setItems((prev) => [created, ...prev]);
       setForm({ title: "", description: "", github_url: "", is_public: true, tag_ids: [] });
     } catch (e: any) {
+      // If session expired, auth was cleared - redirect instead of showing error
+      if (!isAuthed()) {
+        router.replace(`/${locale}/login`);
+        return;
+      }
       setCreateErr(e?.message ?? "Failed to create project");
     } finally {
       setCreating(false);
@@ -171,6 +181,11 @@ export default function ProjectsPage() {
       setEditingId(null);
       setEditForm(null);
     } catch (e: any) {
+      // If session expired, auth was cleared - redirect instead of showing error
+      if (!isAuthed()) {
+        router.replace(`/${locale}/login`);
+        return;
+      }
       alert(e?.message ?? "Failed to update");
     } finally {
       setSavingEdit(false);
@@ -185,6 +200,11 @@ export default function ProjectsPage() {
       await deleteProject(projectId);
       setItems((prev) => prev.filter((x) => x.id !== projectId));
     } catch (e: any) {
+      // If session expired, auth was cleared - redirect instead of showing error
+      if (!isAuthed()) {
+        router.replace(`/${locale}/login`);
+        return;
+      }
       alert(e?.message ?? "Failed to delete");
     }
   }

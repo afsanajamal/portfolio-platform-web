@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { getRole, type UserRole as AuthUserRole } from "@/lib/auth";
+import { getRole, isAuthed, type UserRole as AuthUserRole } from "@/lib/auth";
 import { listActivity, type ActivityLog, listUsers } from "@/lib/api";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -126,7 +126,13 @@ export default function ActivityPage() {
         const data = await listActivity({ limit, offset });
         if (!cancelled) setLogs(data);
       } catch (e: any) {
-        if (!cancelled) setErr(e?.message ?? "Failed to load activity");
+        if (cancelled) return;
+        // If session expired, auth was cleared - redirect instead of showing error
+        if (!isAuthed()) {
+          router.replace(`/${locale}/login`);
+          return;
+        }
+        setErr(e?.message ?? "Failed to load activity");
       } finally {
         if (!cancelled) setLoading(false);
       }

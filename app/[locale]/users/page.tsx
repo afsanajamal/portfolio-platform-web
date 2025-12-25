@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-import { getRole, type UserRole as AuthUserRole } from "@/lib/auth";
+import { getRole, isAuthed, type UserRole as AuthUserRole } from "@/lib/auth";
 import { createUser, listUsers, type User } from "@/lib/api";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -66,7 +66,13 @@ export default function UsersPage() {
         const data = await listUsers();
         if (!cancelled) setUsers(data);
       } catch (e: any) {
-        if (!cancelled) setErr(e?.message ?? "Failed to load users");
+        if (cancelled) return;
+        // If session expired, auth was cleared - redirect instead of showing error
+        if (!isAuthed()) {
+          router.replace(`/${locale}/login`);
+          return;
+        }
+        setErr(e?.message ?? "Failed to load users");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -87,6 +93,11 @@ export default function UsersPage() {
       setUsers((prev) => [created, ...prev]);
       setForm({ email: "", password: "", role: "viewer" });
     } catch (e: any) {
+      // If session expired, auth was cleared - redirect instead of showing error
+      if (!isAuthed()) {
+        router.replace(`/${locale}/login`);
+        return;
+      }
       setCreateErr(e?.message ?? "Failed to create user");
     } finally {
       setCreating(false);
