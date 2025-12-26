@@ -86,29 +86,39 @@ export default function ProjectsPage() {
     };
   }, [locale, router]);
 
-  async function loadAll() {
-    setLoading(true);
-    setError(null);
-    try {
-      const [projectsData, tagsData] = await Promise.all([listProjects(), listTags()]);
-      setItems(projectsData);
-      setTags(tagsData);
-    } catch (e: any) {
-      // If session expired, auth was cleared - redirect instead of showing error
-      if (!isAuthed()) {
-        router.replace(`/${locale}/login`);
-        return;
-      }
-      setError(typeof e?.message === "string" ? e.message : "Failed to load");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
     if (!authed) return;
-    loadAll();
-  }, [authed]);
+
+    let cancelled = false;
+
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const [projectsData, tagsData] = await Promise.all([listProjects(), listTags()]);
+        if (!cancelled) {
+          setItems(projectsData);
+          setTags(tagsData);
+        }
+      } catch (e: any) {
+        if (cancelled) return;
+        // If session expired, auth was cleared - redirect instead of showing error
+        if (!isAuthed()) {
+          router.replace(`/${locale}/login`);
+          return;
+        }
+        setError(typeof e?.message === "string" ? e.message : "Failed to load");
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authed, locale, router]);
 
   const tagsById = useMemo(() => {
   const m = new Map<number, string>();
