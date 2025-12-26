@@ -87,7 +87,8 @@ This project is designed as a **portfolio-quality frontend system**, suitable fo
 Detailed project documentation is available below:
 
 - [Project Overview](docs/overview.md)
-- [Architecture & Design Decisions](docs/architecture.md)
+- [Architecture & Structure](docs/architecture.md)
+- [Architecture Decisions (Why React Hooks, JWT, etc.)](docs/architecture-decisions.md)
 - [Features & User Flows](docs/features.md)
 - [Testing & CI](docs/testing-and-ci.md)
 - [Development Guide](docs/development.md)
