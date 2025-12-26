@@ -38,10 +38,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-md">
+    <div className="mx-auto mt-6 max-w-md px-4 sm:mt-10 sm:px-0">
       <Card>
         <CardHeader>
-          <h1 className="text-xl font-semibold">{t("title")}</h1>
+          <h1 className="text-lg font-semibold sm:text-xl">{t("title")}</h1>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit} className="space-y-4">

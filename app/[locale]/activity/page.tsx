@@ -158,15 +158,15 @@ export default function ActivityPage() {
   if (!canSeeActivity) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-6">
       <Card>
         <CardHeader>
-          <h1 className="text-xl font-semibold">Activity</h1>
+          <h1 className="text-lg font-semibold sm:text-xl">Activity</h1>
           <p className="text-sm text-slate-600">Recent audit events (admin only).</p>
         </CardHeader>
 
         <CardContent>
-          <div className="mb-3 flex items-center gap-2">
+          <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
             <label className="text-sm text-slate-700">Entity:</label>
             <select
               className="h-9 rounded-md border border-slate-200 bg-white px-2 text-sm"
@@ -191,11 +191,11 @@ export default function ActivityPage() {
           ) : filteredLogs.length === 0 ? (
             <p className="text-sm text-slate-600">No activity found.</p>
           ) : (
-            <div className="overflow-auto">
+            <div className="-mx-4 overflow-x-auto sm:mx-0">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 text-left">
-                    <th className="py-2 pr-4">Time</th>
+                    <th className="py-2 pl-4 pr-4 sm:pl-0">Time</th>
                     <th className="py-2 pr-4">Action</th>
                     <th className="py-2 pr-4">Entity</th>
                     <th className="py-2 pr-4">Entity ID</th>
@@ -205,10 +205,10 @@ export default function ActivityPage() {
                 <tbody>
                   {filteredLogs.map((l) => (
                     <tr key={String(l.id)} className="border-b border-slate-100 align-top">
-                      <td className="py-2 pr-4 whitespace-nowrap">
+                      <td className="py-2 pl-4 pr-4 whitespace-nowrap sm:pl-0">
                         <div className="flex flex-col">
-                          <span>{formatRelative(l.created_at)}</span>
-                          <span className="text-xs text-slate-500">{formatAbsolute(l.created_at)}</span>
+                          <span className="text-xs sm:text-sm">{formatRelative(l.created_at)}</span>
+                          <span className="hidden text-xs text-slate-500 sm:inline">{formatAbsolute(l.created_at)}</span>
                         </div>
                       </td>
                       <td className="py-2 pr-4">
@@ -226,9 +226,10 @@ export default function ActivityPage() {
             </div>
           )}
 
-          <div className="mt-4 flex items-center gap-2">
+          <div className="mt-4 flex flex-wrap items-center gap-2">
             <Button
               variant="outline"
+              className="h-9 text-sm"
               disabled={offset === 0 || loading}
               onClick={() => setOffset((o) => Math.max(0, o - limit))}
             >
@@ -236,12 +237,13 @@ export default function ActivityPage() {
             </Button>
             <Button
               variant="outline"
+              className="h-9 text-sm"
               disabled={logs.length < limit || loading}
               onClick={() => setOffset((o) => o + limit)}
             >
               Next
             </Button>
-            <span className="text-sm text-slate-600">offset: {offset}</span>
+            <span className="text-xs text-slate-600 sm:text-sm">offset: {offset}</span>
           </div>
         </CardContent>
       </Card>

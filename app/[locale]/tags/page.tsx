@@ -105,10 +105,10 @@ export default function TagsPage() {
   if (!authed) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-6">
       <Card>
         <CardHeader>
-          <h1 className="text-xl font-semibold">Tags</h1>
+          <h1 className="text-lg font-semibold sm:text-xl">Tags</h1>
           <p className="text-sm text-slate-600">
             {canCreate ? "Create and view tags." : "View tags (read-only)."}
           </p>
@@ -116,8 +116,8 @@ export default function TagsPage() {
 
         <CardContent>
           {canCreate ? (
-            <form onSubmit={onCreate} className="flex items-end gap-3" data-testid="create-tag-form">
-              <div className="space-y-1">
+            <form onSubmit={onCreate} className="flex flex-col gap-3 sm:flex-row sm:items-end" data-testid="create-tag-form">
+              <div className="flex-1 space-y-1">
                 <label className="text-sm text-slate-700">Name</label>
                 <Input
                   data-testid="create-tag-name"
@@ -127,7 +127,7 @@ export default function TagsPage() {
                 />
               </div>
 
-              <Button data-testid="create-tag-submit" type="submit" disabled={creating}>
+              <Button data-testid="create-tag-submit" type="submit" disabled={creating} className="w-full sm:w-auto">
                 {creating ? "Creating..." : "Create tag"}
               </Button>
 

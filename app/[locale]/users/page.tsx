@@ -109,15 +109,15 @@ export default function UsersPage() {
   if (!isAdmin) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-6">
       <Card>
         <CardHeader>
-          <h1 className="text-xl font-semibold">Users</h1>
+          <h1 className="text-lg font-semibold sm:text-xl">Users</h1>
           <p className="text-sm text-slate-600">Admin only: create and view users.</p>
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={onCreate} className="grid gap-3 md:grid-cols-3">
+          <form onSubmit={onCreate} className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
             <div className="space-y-1">
               <label className="text-sm text-slate-700">Email</label>
               <Input
@@ -151,8 +151,8 @@ export default function UsersPage() {
               </select>
             </div>
 
-            <div className="md:col-span-3 flex items-center gap-3">
-              <Button type="submit" disabled={creating}>
+            <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center md:col-span-3">
+              <Button type="submit" disabled={creating} className="w-full sm:w-auto">
                 {creating ? "Creating..." : "Create user"}
               </Button>
 
@@ -164,7 +164,7 @@ export default function UsersPage() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-lg font-semibold">User list</h2>
+          <h2 className="text-base font-semibold sm:text-lg">User list</h2>
         </CardHeader>
 
         <CardContent>
@@ -175,11 +175,11 @@ export default function UsersPage() {
           ) : users.length === 0 ? (
             <p className="text-sm text-slate-600">No users found.</p>
           ) : (
-            <div className="overflow-auto">
+            <div className="-mx-4 overflow-x-auto sm:mx-0">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-200 text-left">
-                    <th className="py-2 pr-4">Email</th>
+                    <th className="py-2 pl-4 pr-4 sm:pl-0">Email</th>
                     <th className="py-2 pr-4">Role</th>
                     <th className="py-2 pr-4">Org</th>
                   </tr>
@@ -187,7 +187,7 @@ export default function UsersPage() {
                 <tbody>
                   {users.map((u) => (
                     <tr key={String(u.id)} className="border-b border-slate-100">
-                      <td className="py-2 pr-4">{u.email}</td>
+                      <td className="py-2 pl-4 pr-4 sm:pl-0">{u.email}</td>
                       <td className="py-2 pr-4">{u.role}</td>
                       <td className="py-2 pr-4">{u.org_id ?? "-"}</td>
                     </tr>

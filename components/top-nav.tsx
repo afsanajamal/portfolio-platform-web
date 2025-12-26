@@ -50,14 +50,17 @@ export function TopNav() {
 
   return (
     <header className="border-b border-slate-200">
-      <div className="mx-auto flex max-w-5xl items-center justify-between p-4">
-        <Link href={`/${locale}`} className="font-semibold text-slate-900">
-          Portfolio Platform
-        </Link>
-        {authed && orgId ? (
-          <span className="text-xs text-slate-500">Org: {orgId}</span>
-        ) : null}
-        <nav className="flex items-center gap-3">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 p-4">
+        <div className="flex items-center justify-between">
+          <Link href={`/${locale}`} className="font-semibold text-slate-900">
+            Portfolio Platform
+          </Link>
+          {authed && orgId ? (
+            <span className="text-xs text-slate-500">Org: {orgId}</span>
+          ) : null}
+        </div>
+
+        <nav className="flex flex-wrap items-center gap-2">
           <Link
             className="text-sm text-slate-700 hover:text-slate-900"
             href={`/${locale}/projects`}
@@ -89,17 +92,17 @@ export function TopNav() {
             </Link>
           )}
 
-          <div className="ml-2">
+          <div>
             <LanguageSwitcher />
           </div>
 
           {authed ? (
-            <Button className="ml-2 h-9" variant="outline" onClick={logout}>
+            <Button className="h-9" variant="outline" onClick={logout}>
               {t("logout")}
             </Button>
           ) : (
             <Link href={`/${locale}/login`}>
-              <Button className="ml-2 h-9" variant="outline">
+              <Button className="h-9" variant="outline">
                 {t("login")}
               </Button>
             </Link>

@@ -18,7 +18,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <TopNav />
-          <main className="mx-auto max-w-5xl p-4">{children}</main>
+          <main className="mx-auto max-w-5xl">{children}</main>
         </NextIntlClientProvider>
       </body>
     </html>

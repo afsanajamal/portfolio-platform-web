@@ -219,9 +219,9 @@ export default function ProjectsPage() {
   if (!authed) return null;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-end justify-between gap-3">
-        <h1 className="text-2xl font-semibold">{t("title")}</h1>
+    <div className="space-y-4 p-4 sm:p-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
+        <h1 className="text-xl font-semibold sm:text-2xl">{t("title")}</h1>
         <p className="text-sm text-slate-500">Role: {role ?? "-"}</p>
       </div>
 
@@ -379,8 +379,8 @@ export default function ProjectsPage() {
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="flex-1">
                           <div className="font-medium">{p.title}</div>
                           <div className="text-sm text-slate-600">{p.description}</div>
                           <a className="mt-1 block text-xs text-slate-500 underline" href={p.github_url} target="_blank" rel="noreferrer">
@@ -389,12 +389,12 @@ export default function ProjectsPage() {
                         </div>
 
                         {canMutate ? (
-                          <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => startEdit(p)} data-testid={`edit-project-${p.id}`}>
+                          <div className="flex gap-2 sm:flex-col sm:gap-1">
+                            <Button className="h-8 text-sm" variant="outline" onClick={() => startEdit(p)} data-testid={`edit-project-${p.id}`}>
                               Edit
                             </Button>
                              {canDeleteProject(p) && (
-                                <Button variant="outline" onClick={() => onDelete(p.id)} data-testid={`delete-project-${p.id}`}>
+                                <Button className="h-8 text-sm" variant="outline" onClick={() => onDelete(p.id)} data-testid={`delete-project-${p.id}`}>
                                   Delete
                                 </Button>
                               )}

@@ -21,15 +21,15 @@ export function LanguageSwitcher() {
   const current = useLocale() as Locale;
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-xs text-slate-500">{t("language")}:</span>
+    <div className="flex items-center gap-1 sm:gap-2">
+      <span className="hidden text-xs text-slate-500 sm:inline">{t("language")}:</span>
       <Link href={switchLocalePath(pathname, "en")} aria-current={current === "en"}>
-        <Button variant={current === "en" ? "default" : "outline"} className="h-8 px-3">
+        <Button variant={current === "en" ? "default" : "outline"} className="h-8 px-2 text-xs sm:px-3 sm:text-sm">
           {t("english")}
         </Button>
       </Link>
       <Link href={switchLocalePath(pathname, "ja")} aria-current={current === "ja"}>
-        <Button variant={current === "ja" ? "default" : "outline"} className="h-8 px-3">
+        <Button variant={current === "ja" ? "default" : "outline"} className="h-8 px-2 text-xs sm:px-3 sm:text-sm">
           {t("japanese")}
         </Button>
       </Link>
