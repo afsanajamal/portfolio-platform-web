@@ -114,8 +114,10 @@ export type Project = {
   tags: { id: number; name: string }[];
 };
 
-export async function listProjects(): Promise<Project[]> {
-  return apiFetch<Project[]>("/projects", { method: "GET", auth: true });
+export async function listProjects(params?: { limit?: number; offset?: number }): Promise<Project[]> {
+  const limit = params?.limit ?? 20;
+  const offset = params?.offset ?? 0;
+  return apiFetch<Project[]>(`/projects?limit=${limit}&offset=${offset}`, { method: "GET", auth: true });
 }
 
 // ===== Users (admin only) =====

@@ -41,7 +41,10 @@ export default function ProjectsPage() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
+  const [limit] = useState(20);
+  const [offset, setOffset] = useState(0);
+
   const [creating, setCreating] = useState(false);
   const [createErr, setCreateErr] = useState<string | null>(null);
   const [form, setForm] = useState<CreateForm>({
@@ -95,7 +98,10 @@ export default function ProjectsPage() {
       setLoading(true);
       setError(null);
       try {
-        const [projectsData, tagsData] = await Promise.all([listProjects(), listTags()]);
+        const [projectsData, tagsData] = await Promise.all([
+          listProjects({ limit, offset }),
+          listTags()
+        ]);
         if (!cancelled) {
           setItems(projectsData);
           setTags(tagsData);
@@ -118,7 +124,7 @@ export default function ProjectsPage() {
     return () => {
       cancelled = true;
     };
-  }, [authed, locale, router]);
+  }, [authed, locale, router, limit, offset]);
 
   const tagsById = useMemo(() => {
   const m = new Map<number, string>();
@@ -428,6 +434,26 @@ export default function ProjectsPage() {
               );
             })}
           </ul>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <Button
+              variant="outline"
+              className="h-9 text-sm"
+              disabled={offset === 0 || loading}
+              onClick={() => setOffset((o) => Math.max(0, o - limit))}
+            >
+              Prev
+            </Button>
+            <Button
+              variant="outline"
+              className="h-9 text-sm"
+              disabled={items.length < limit || loading}
+              onClick={() => setOffset((o) => o + limit)}
+            >
+              Next
+            </Button>
+            <span className="text-xs text-slate-600 sm:text-sm">offset: {offset}</span>
+          </div>
         </CardContent>
       </Card>
     </div>
