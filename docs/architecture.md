@@ -41,8 +41,11 @@ The application follows **Next.js App Router conventions**:
 - `lib/`
   Utility libraries for API calls and authentication.
 
-- `i18n/`
+- `messages/`
   Translation files for English and Japanese.
+
+- `i18n/`
+  i18n configuration (locale settings, request handler).
 
 - `e2e/`
   End-to-end tests using Playwright.
@@ -131,7 +134,9 @@ This keeps the application simple and avoids over-engineering.
 
 **Tailwind CSS** with **shadcn/ui** components:
 - Utility-first CSS for rapid development
-- Consistent design system via shadcn/ui
+- shadcn/ui provides accessible, composable components
+- Built on Radix UI primitives for accessibility
+- Uses `cn()` utility (clsx + tailwind-merge) for className merging
 - No CSS modules or styled-components
 - Responsive by default
 

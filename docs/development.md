@@ -86,7 +86,7 @@ npm run lint
    ```
 
 3. Add to navigation in `components/top-nav.tsx`
-4. Add translations in `i18n/en.json` and `i18n/ja.json`
+4. Add translations in `messages/en.json` and `messages/ja.json`
 5. Add E2E tests in `e2e/your-page.spec.ts`
 
 ### Adding API Endpoints
@@ -104,7 +104,7 @@ export async function yourApiCall(): Promise<YourType> {
 
 ### Adding Translations
 
-1. Add to `i18n/en.json`:
+1. Add to `messages/en.json`:
    ```json
    {
      "yourPage": {
@@ -114,7 +114,7 @@ export async function yourApiCall(): Promise<YourType> {
    }
    ```
 
-2. Add to `i18n/ja.json` (Japanese translation)
+2. Add to `messages/ja.json` (Japanese translation)
 
 3. Use in component:
    ```tsx
@@ -126,15 +126,36 @@ export async function yourApiCall(): Promise<YourType> {
 
 ### Adding UI Components
 
-Use shadcn/ui:
+This project uses **shadcn/ui** for UI components. Components are installed into your codebase (not as dependencies), making them fully customizable.
+
+To add a new component:
 
 ```bash
-npx shadcn-ui@latest add button
-npx shadcn-ui@latest add input
-npx shadcn-ui@latest add card
+npx shadcn@latest add <component-name>
 ```
 
-Components added to `components/ui/`
+Examples:
+```bash
+# Add a dialog component
+npx shadcn@latest add dialog
+
+# Add a dropdown menu
+npx shadcn@latest add dropdown-menu
+
+# Add a badge component
+npx shadcn@latest add badge
+
+# Add multiple components at once
+npx shadcn@latest add dialog dropdown-menu badge
+```
+
+Components will be added to `components/ui/` and can be imported like:
+```tsx
+import { Dialog } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+```
+
+See the [shadcn/ui docs](https://ui.shadcn.com) for all available components.
 
 ---
 

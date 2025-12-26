@@ -180,14 +180,17 @@ portfolio-platform-web/
 │   ├── globals.css          # Global styles
 │   └── layout.tsx           # Root layout
 ├── components/              # Reusable UI components
-│   ├── ui/                  # shadcn/ui components
+│   ├── ui/                  # shadcn/ui components (button, card, input)
 │   └── top-nav.tsx          # Navigation bar
 ├── lib/                     # Utility libraries
 │   ├── api.ts              # API client with auto-refresh
 │   └── auth.ts             # Auth utilities
-├── i18n/                    # Internationalization
+├── messages/                # Internationalization
 │   ├── en.json             # English translations
 │   └── ja.json             # Japanese translations
+├── i18n/                    # i18n configuration
+│   ├── config.ts           # Locale settings
+│   └── request.ts          # i18n request handler
 ├── e2e/                     # Playwright E2E tests
 │   ├── auth.spec.ts        # Auth flow tests
 │   ├── projects.spec.ts    # Projects CRUD tests

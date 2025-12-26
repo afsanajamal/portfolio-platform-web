@@ -136,7 +136,9 @@ if (res.status === 401 && retry && options.auth) {
 - Utility-first approach speeds up development
 - Mobile-first responsive design with breakpoints (sm, md, lg)
 - No CSS file management or naming conventions needed
-- shadcn/ui provides accessible, unstyled components
+- shadcn/ui provides accessible, production-ready components
+- Built on Radix UI primitives for best-in-class accessibility
+- Components are copied into your codebase (not a dependency), so fully customizable
 
 **Alternatives:**
 - CSS Modules (more boilerplate)
